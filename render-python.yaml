@@ -1,0 +1,19 @@
+services:
+  # Plain Python web service without Docker
+  - type: web
+    name: stable-diffusion
+    env: python
+    buildCommand: pip install -r requirements.txt && pip install -e .
+    startCommand: python download_weights.py --mock && python app.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.8.10
+      - key: GRADIO_SERVER_NAME
+        value: 0.0.0.0
+      - key: GRADIO_SERVER_PORT
+        sync: false # Will use the PORT env var provided by Render
+    healthCheckPath: /health
+    disk:
+      name: stable-diffusion-data
+      mountPath: /opt/render/project/src/models
+      sizeGB: 1 

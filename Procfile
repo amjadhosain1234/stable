@@ -1,0 +1,1 @@
+web: python download_weights.py && python app.py 

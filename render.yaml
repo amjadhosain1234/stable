@@ -1,0 +1,17 @@
+services:
+  # Use Docker deployment instead of Python environment
+  - type: web
+    name: stable-diffusion
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: standard
+    healthCheckPath: /health
+    envVars:
+      - key: GRADIO_SERVER_NAME
+        value: 0.0.0.0
+      - key: GRADIO_SERVER_PORT
+        sync: false # Will use the PORT env var provided by Render
+    disk:
+      name: stable-diffusion-data
+      mountPath: /app/models
+      sizeGB: 10 
